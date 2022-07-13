@@ -25,9 +25,8 @@ func main() {
 			fmt.Println("Can not create /data/dat1")
 		}
 
-		if err != nil {
-			fmt.Println("Can not create /data/dat1")
-		}
+		check(err)
+		check2(err)
 
 		err = os.WriteFile("/tmp/dat2", d1, 0644)
 		if err != nil {
@@ -63,4 +62,15 @@ func main() {
 
 func removeItem(items []string, idx int8) []string {
 	return append(items[:idx], items[idx+1:]...)
+}
+
+func check(err error) {
+	if err != nil {
+		fmt.Println("Can not create /data/dat1")
+	}
+}
+func check2(err error) {
+	if err != nil {
+		fmt.Println("Can not create /data/dat1")
+	}
 }
