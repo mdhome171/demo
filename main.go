@@ -25,6 +25,10 @@ func main() {
 			fmt.Println("Can not create /data/dat1")
 		}
 
+		if err != nil {
+			fmt.Println("Can not create /data/dat1")
+		}
+
 		err = os.WriteFile("/tmp/dat2", d1, 0644)
 		if err != nil {
 			fmt.Println("Can not create /tmp/dat2")
