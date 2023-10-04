@@ -1,76 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"net/http"
-	"os"
+	"github.com/dakamarko/demo4/impl"
+	"sigs.k8s.io/yaml"
 )
 
+type Player struct {
+	impl.DataHolder
+	Name string
+}
+
 func main() {
+	var p Player
 
-	http.HandleFunc("/", func(writer http.ResponseWriter, r *http.Request) {
-		items := []string{
-			"Dragan",
-			"Amer",
-			"Danijela",
-			"Rade",
-			"Leta",
-		}
-
-		d1 := []byte("hello go")
-
-		err := os.WriteFile("/data/dat1", d1, 0644)
-		if err != nil {
-			fmt.Println("Can not create /data/dat1")
-		}
-
-		check(err)
-		check2(err)
-
-		err = os.WriteFile("/tmp/dat2", d1, 0644)
-		if err != nil {
-			fmt.Println("Can not create /tmp/dat2")
-		}
-
-		var tmp string
-		for i := 0; i < 10; i++ {
-			left := int8(rand.Intn(len(items)))
-			right := int8(rand.Intn(len(items)))
-			tmp = items[left]
-			items[left] = items[right]
-			items[right] = tmp
-		}
-
-		fmt.Printf("Next: %v\n", items)
-		for i, n := range items {
-			out := fmt.Sprintf("%v: %v\n", i+1, n)
-			if _, err := writer.Write([]byte(out)); err != nil {
-				fmt.Println("Server Error")
-				writer.WriteHeader(503)
-				return
-			}
-		}
-	})
-
-	fmt.Println("Starting server on port 8080")
-	err := http.ListenAndServe(":8080", nil)
+	input := []byte("Name: Marko")
+	err := yaml.Unmarshal(input, &p)
 	if err != nil {
-		fmt.Printf("Server Error\n%v\n", err)
+		panic("oh ooh")
 	}
-}
 
-func removeItem(items []string, idx int8) []string {
-	return append(items[:idx], items[idx+1:]...)
-}
+	p.Set(input)
 
-func check(err error) {
-	if err != nil {
-		fmt.Println("Can not create /data/dat1")
-	}
-}
-func check2(err error) {
-	if err != nil {
-		fmt.Println("Can not create /data/dat1")
-	}
 }
