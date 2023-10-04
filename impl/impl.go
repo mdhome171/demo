@@ -1,18 +1,24 @@
 package impl
 
-type Partitioner interface {
-	Get() []byte
-	Set([]byte)
+type SimplifiedYamlModel interface {
+	UnfoldYaml() []byte
+	Set([]byte, interface{})
 }
 
-func (dh *DataHolder) Get() []byte {
-	return dh.__originalData
+func (dh *DataHolder) UnfoldYaml() []byte {
+	return merge(dh.__originalData, dh.__var)
 }
 
-func (dh *DataHolder) Set(b []byte) {
+func merge(originalData []byte, i interface{}) []byte {
+	return nil
+}
+
+func (dh *DataHolder) Set(b []byte, i interface{}) {
 	dh.__originalData = b
+	dh.__var = i
 }
 
 type DataHolder struct {
 	__originalData []byte
+	__var          interface{}
 }

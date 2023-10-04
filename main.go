@@ -6,7 +6,7 @@ import (
 )
 
 type Player struct {
-	impl.DataHolder
+	impl.SimplifiedYamlModel
 	Name string
 }
 
@@ -19,6 +19,8 @@ func main() {
 		panic("oh ooh")
 	}
 
-	p.Set(input)
+	p.Set(input, &p)
+
+	p.UnfoldYaml()
 
 }
